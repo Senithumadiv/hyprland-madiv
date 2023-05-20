@@ -1,0 +1,128 @@
+{
+    "layer": "top",
+    "position": "top",
+    "mod": "dock",
+    "exclusive": true,
+    "passthrough": false,
+    "gtk-layer-shell": true,
+    "height": 0,
+    "modules-left": [
+        "wlr/workspaces"
+    ],
+    "modules-center": ["hyprland/window"],
+    "modules-right": [
+        "tray",
+        "network",
+        "custom/updates",
+        "backlight",
+        "pulseaudio",
+        "clock",
+    ],
+
+    "hyprland/window": {
+        "format": "{}"
+    },
+    "wlr/workspaces": {
+        "format": "{icon}",
+        "format-active": " {icon} ",
+        "on-click": "activate"
+        // "format-icons":{
+        //     "10":"10"
+        // }
+    },
+   
+    "custom/ss":{
+        "format":"{}",
+        "exec":"~/.config/hypr/scripts/tools/expand ss-icon",
+        "on-click": "~/.config/waybar/screenshot"
+    },
+    "custom/cycle_wall":{
+        "format":"{}",
+        "tooltip":"Change wallpaper",
+        "exec": "~/.config/hypr/scripts/tools/expand wall",
+        // "interval": 1,
+        "on-click": "/home/seni/wallpaper-switcher/scripts/changeWallpaper2 cycle"
+    },
+    "custom/expand":{
+        "on-click":"~/.config/hypr/scripts/expand_toolbar",
+        "format":"{}",
+        "exec":"~/.config/hypr/scripts/tools/expand arrow-icon"
+    },
+
+    "custom/updates": {
+        "format": " {}",
+        "interval": 7200,                     // every two hours
+        "exec": "i=$(checkupdates); echo \"$i\" |wc -l; echo \"$i\" |column -t |tr '\n' '\r'",       // # of updates and tooltip details
+        "exec-if": "exit 0",                  // always run; consider advanced run conditions
+        "on-click": "kitty -e sudo pacman -Syu", // update system
+        "signal": 8
+    },
+    "tray": {
+        "icon-size": 14,
+        "spacing": 10
+    },
+    "clock": {
+        "format": "{:  %I:%M}",
+        "tooltip-format": "<big>{:%a %e %B %Y}</big>\n<tt><small>{calendar}</small></tt>"
+    },
+    "backlight": {
+        "device": "intel_backlight",
+        "format": "{icon} {percent}%",
+        "format-icons": [" ", " ", " ", " ", " ", " ", " ", " ", ""],
+        "on-scroll-up": "brightnessctl set 1%+",
+        "on-scroll-down": "brightnessctl set 1%-",
+        "min-length": 6
+    },
+    "battery": {
+        "states": {
+            "good": 95,
+            "warning": 30,
+            "critical": 20
+        },
+        "format": "{icon} {capacity}%",
+        "format-charging": " {capacity}%",
+        "format-plugged": " {capacity}%",
+        "format-alt": "{time} {icon}",
+        "format-icons": ["", "", "", "", "", "", "", "", "", "", ""]
+    },
+    "pulseaudio": {
+        "format": "{icon} {volume}%",
+        "tooltip": false,
+        "format-muted": " Muted",
+        "on-click": "pamixer -t",
+        "on-scroll-up": "pamixer -i 5",
+        "on-scroll-down": "pamixer -d 5",
+        "scroll-step": 5,
+        "format-icons": {
+            "headphone": "",
+            "hands-free": "",
+            "headset": "",
+            "phone": "",
+            "portable": "",
+            "car": "",
+            "default": ["", "", ""]
+        }
+    },
+    "pulseaudio#microphone": {
+        "format": "{format_source}",
+        "format-source": " {volume}%",
+        "format-source-muted": " Muted",
+        "on-click": "pamixer --default-source -t",
+        "on-scroll-up": "pamixer --default-source -i 5",
+        "on-scroll-down": "pamixer --default-source -d 5",
+        "scroll-step": 5
+    },
+        "network": {
+        // "interface": "wlp2*", // (Optional) To force the use of this interface
+        "format-wifi": "{essid} ({signalStrength}%)",
+        "format-ethernet": "{ipaddr}/{cidr} ",
+        "tooltip-format": "{ifname} via {gwaddr} ",
+        "format-linked": "{ifname} (No IP) ",
+        "format-disconnected": "Disconnected"
+    },
+        "custom/off": {
+            "format":".",
+            "tooltip-format": "Wallpaper",
+            "on-click": "~/wallpaper-switcher/scripts/changeWallpaper2"
+        }
+}
